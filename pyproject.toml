@@ -1,0 +1,17 @@
+[project]
+name = "transformernest"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "dev079144", email = "karl.r.moresco@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.5.1",
+    "regex>=2026.7.19",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"

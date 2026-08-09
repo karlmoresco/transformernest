@@ -1,7 +1,7 @@
 import json
 import regex as re
 import numpy as np
-from config import vocab_size, seq_len, d_model
+from transformernest.config import vocab_size, seq_len, d_model
 
 # Needed for alternative data cleaning approach
 # import unicodedata
