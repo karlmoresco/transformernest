@@ -1,21 +1,29 @@
-# Hyperparameters
-
-vocab_size = 8000  # Number of tokens in vocabulary post-BPE
-seq_len = 128  # Number of tokens in a single training sequence (can be increased to 256)
-batch_size = 32  # Number of training examples per batch (can possibly be increased to 64)
-d_model = 128  # Vector dimension for token embeddings (can be increased to 256)
-feedforward_dim = 512  # Matrix dimension for feedforward layers (can be increased to 1024)
-n_layers = 2  # Number of transformer blocks (should be within range 2-8)
-n_heads = 4  # Number of attention heads (can be increased to 8)
-# d_k = d_model // n_heads (?)
-
-# Attention mechanism: Masked causal multi-head self-attention
-# Loss function: Cross-entropy
-# Positional encodings: Sinusoidal
-
-# TODO: Experiment with 3 or 4 layers (n_layers)
-# TODO: Consider n_heads=8 for richer attention patterns (no overfitting risk, just more fine-grained)
-# TODO: How many epochs?
-# TODO: Learn about optimizer and learning rates - Adam optimizer, learning rate (1e-4, 2e-4), warmup, cosine annealing schedule, linear warmup, cosine decay ?
-# TODO: Add hyperparameter customizability. Implement as model attribute ?
-# TODO: Learn CUDA and implement GPU acceleration ?
+class Config:
+    def __init__(
+        self,
+        vocab_size: int = 1000,  # Target number of tokens in vocabulary post-BPE,
+        seq_len: int = 128,  # Number of tokens in a single sequence
+        d_model: int = 128,  # Vector dimension for token embeddings
+        d_ff: int = 512,  # Matrix dimension for feedforward layers
+        n_layers: int = 2,  # Number of transformer blocks
+        n_heads: int = 4,  # Number of attention heads
+        embedding_std: float = 0.02,  # Standard deviation for initialization of embeddings
+        attention_std: float = 0.02,  # Standard deviation for initialization of attention mechanism weights
+        seed: int = 42,  # Random seed
+    ):
+        if d_model % 2 != 0:
+            raise ValueError(
+                "d_model must be an even integer"
+            )
+        if d_model % n_heads != 0:
+            raise ValueError(
+                f"d_model ({d_model}) must be divisible by n_heads ({n_heads})"
+            )
+        self.vocab_size = vocab_size
+        self.seq_len = seq_len
+        self.d_model = d_model
+        self.d_ff = d_ff
+        self.n_layers = n_layers
+        self.n_heads = n_heads
+        self.seed = seed
+        self.d_k = d_model // n_heads
